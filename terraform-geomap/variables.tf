@@ -1,0 +1,75 @@
+# terraform-geomap/variables.tf
+variable "aws_region" {
+  description = "AWS region for resources"
+  type        = string
+  default     = "us-west-1"
+}
+
+variable "environment" {
+  description = "Environment name (dev, staging, prod)"
+  type        = string
+  default     = "prod"
+}
+
+variable "app_name" {
+  description = "Application name"
+  type        = string
+  default     = "geomap"
+}
+
+variable "subdomain" {
+  description = "Subdomain for geomap app"
+  type        = string
+  default     = "app"
+}
+
+# Database variables
+variable "db_name" {
+  description = "Database name for geomap app"
+  type        = string
+  default     = "geomap_db"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
+variable "db_password" {
+  description = "Password for geomap database"
+  type        = string
+  sensitive   = true
+}
+
+# ECS variables
+variable "ecs_task_cpu" {
+  description = "CPU units for ECS tasks"
+  type        = number
+  default     = 256
+}
+
+variable "ecs_task_memory" {
+  description = "Memory for ECS tasks"
+  type        = number
+  default     = 512
+}
+
+variable "app_count" {
+  description = "Number of app instances"
+  type        = number
+  default     = 2
+}
+
+# Application secrets
+variable "jwt_secret" {
+  description = "JWT secret for geomap application"
+  type        = string
+  sensitive   = true
+}
+
+variable "nextauth_secret" {
+  description = "NextAuth secret"
+  type        = string
+  sensitive   = true
+}
