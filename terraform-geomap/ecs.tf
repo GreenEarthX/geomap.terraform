@@ -44,6 +44,26 @@ resource "aws_ecs_task_definition" "geomap" {
         {
           name  = "PORT"
           value = "3000"
+        },
+        {
+          name      = "ONBOARDING_APP_URL"
+          value = var.onboarding_app_url
+        },
+        {
+          name      = "NEXT_PUBLIC_ONBOARDING_URL"
+          value = var.onboarding_app_url
+        },
+        {
+          name      = "NEXT_PUBLIC_GEOMAP_URL"
+          value = var.geomap_url
+        },
+        {
+          name      = "NEXTAUTH_URL"
+          value = var.geomap_url
+        },
+        {
+          name      = "GEOMAP_URL"
+          value = var.geomap_url
         }
       ]
 
@@ -55,22 +75,6 @@ resource "aws_ecs_task_definition" "geomap" {
         {
           name      = "GEOMAP_JWT_SECRET"
           valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:GEOMAP_JWT_SECRET::"
-        },
-        {
-          name      = "ONBOARDING_APP_URL"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:ONBOARDING_APP_URL::"
-        },
-        {
-          name      = "NEXT_PUBLIC_ONBOARDING_URL"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXT_PUBLIC_ONBOARDING_URL::"
-        },
-        {
-          name      = "NEXT_PUBLIC_GEOMAP_URL"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXT_PUBLIC_GEOMAP_URL::"
-        },
-        {
-          name      = "NEXTAUTH_URL"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXTAUTH_URL::"
         }
       ]
 
