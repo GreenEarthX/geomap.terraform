@@ -58,7 +58,7 @@ variable "ecs_task_memory" {
 variable "app_count" {
   description = "Number of app instances"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 # OAuth variables (will be stored in Secrets Manager)
