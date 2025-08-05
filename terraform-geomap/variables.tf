@@ -58,18 +58,31 @@ variable "ecs_task_memory" {
 variable "app_count" {
   description = "Number of app instances"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 # Application secrets
-variable "jwt_secret" {
+variable "geomap_jwt_secret" {
   description = "JWT secret for geomap application"
   type        = string
   sensitive   = true
 }
 
-variable "nextauth_secret" {
-  description = "NextAuth secret"
+variable "onboarding_app_url" {
+  description = "URL for onboarding application"
   type        = string
-  sensitive   = true
+}
+
+variable "next_public_onboarding_url" {
+  description = "Public URL for onboarding application"
+  type        = string
+}
+
+variable "geomap_url" {
+  description = "URL for geomap application"
+  type        = string
+}
+variable "next_auth_url" {
+  description = "NextAuth URL for geomap application"
+  type        = string
 }

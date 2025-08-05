@@ -53,16 +53,20 @@ resource "aws_ecs_task_definition" "onboarding" {
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:DATABASE_URL::"
         },
         {
-          name      = "JWT_SECRET"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:JWT_SECRET::"
+          name      = "NEXTAUTH_URL"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXTAUTH_URL::"
         },
         {
           name      = "NEXTAUTH_SECRET"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXTAUTH_SECRET::"
         },
         {
-          name      = "NEXTAUTH_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXTAUTH_URL::"
+          name      = "NEXT_PUBLIC_APP_URL"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_APP_URL::"
+        },
+        {
+          name      = "JWT_SECRET"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:JWT_SECRET::"
         },
         {
           name      = "GOOGLE_CLIENT_ID"
@@ -71,6 +75,38 @@ resource "aws_ecs_task_definition" "onboarding" {
         {
           name      = "GOOGLE_CLIENT_SECRET"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GOOGLE_CLIENT_SECRET::"
+        },
+        {
+          name      = "EMAIL_USER"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:EMAIL_USER::"
+        },
+        {
+          name      = "EMAIL_PASS"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:EMAIL_PASS::"
+        },
+        {
+          name      = "NEXT_PUBLIC_RECAPTCHA_SITE_KEY"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_RECAPTCHA_SITE_KEY::"
+        },
+        {
+          name      = "RECAPTCHA_SECRET_KEY"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:RECAPTCHA_SECRET_KEY::"
+        },
+        {
+          name      = "GEOMAP_URL"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_URL::"
+        },
+        {
+          name      = "NEXT_PUBLIC_GEOMAP_URL"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_GEOMAP_URL::"
+        },
+        {
+          name      = "GEOMAP_JWT_SECRET"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_JWT_SECRET::"
+        },
+        {
+          name      = "GEOMAP_APP_URL"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_APP_URL::"
         }
       ]
 

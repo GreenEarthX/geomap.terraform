@@ -22,6 +22,8 @@ resource "aws_db_instance" "onboarding" {
   backup_window          = "03:00-04:00"
   maintenance_window     = "sun:04:00-sun:05:00"
 
+  publicly_accessible = true
+
   skip_final_snapshot = true
   deletion_protection = false
 

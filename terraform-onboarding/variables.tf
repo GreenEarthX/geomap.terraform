@@ -112,3 +112,22 @@ variable "nextauth_secret" {
   type        = string
   sensitive   = true
 }
+
+# Geomap integration variables
+variable "geomap_url" {
+  description = "Geomap application URL"
+  type        = string
+  default     = "http://localhost:3001"
+}
+
+variable "geomap_jwt_secret" {
+  description = "JWT secret for Geomap integration"
+  type        = string
+  sensitive   = true
+}
+
+variable "geomap_app_url" {
+  description = "Geomap app URL for integration"
+  type        = string
+  default     = "http://localhost:3001"
+}

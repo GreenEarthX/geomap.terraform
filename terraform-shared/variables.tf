@@ -28,3 +28,9 @@ variable "availability_zones_count" {
   type        = number
   default     = 2
 }
+
+variable "key_pair_name" {
+  description = "Name of the AWS key pair for EC2 instances"
+  type        = string
+  default     = "bastion-key"
+}

@@ -3,7 +3,7 @@
 resource "aws_db_instance" "geomap" {
   identifier     = "${var.app_name}-db"
   engine         = "postgres"
-  engine_version = "15.4"
+  engine_version = "17.5"
   instance_class = var.db_instance_class
   
   allocated_storage     = 20

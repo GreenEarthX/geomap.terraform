@@ -53,12 +53,20 @@ resource "aws_ecs_task_definition" "geomap" {
           valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:DATABASE_URL::"
         },
         {
-          name      = "JWT_SECRET"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:JWT_SECRET::"
+          name      = "GEOMAP_JWT_SECRET"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:GEOMAP_JWT_SECRET::"
         },
         {
-          name      = "NEXTAUTH_SECRET"
-          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXTAUTH_SECRET::"
+          name      = "ONBOARDING_APP_URL"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:ONBOARDING_APP_URL::"
+        },
+        {
+          name      = "NEXT_PUBLIC_ONBOARDING_URL"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXT_PUBLIC_ONBOARDING_URL::"
+        },
+        {
+          name      = "NEXT_PUBLIC_GEOMAP_URL"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:NEXT_PUBLIC_GEOMAP_URL::"
         },
         {
           name      = "NEXTAUTH_URL"
