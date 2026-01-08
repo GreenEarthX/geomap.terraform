@@ -1,19 +1,5 @@
 # terraform-onboarding/alb.tf
-# Application Load Balancer for Onboarding App
-resource "aws_lb" "onboarding" {
-  name               = "${var.app_name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [data.terraform_remote_state.shared.outputs.alb_security_group_id]
-  subnets            = data.terraform_remote_state.shared.outputs.public_subnet_ids
-
-  enable_deletion_protection = false
-
-  tags = {
-    Name        = "${var.app_name}-alb"
-    Environment = var.environment
-  }
-}
+# Application Load Balancer configuration - using shared ALB
 
 # Target Group
 resource "aws_lb_target_group" "onboarding" {
@@ -41,34 +27,24 @@ resource "aws_lb_target_group" "onboarding" {
   }
 }
 
-# ALB Listener HTTP (no redirect to HTTPS for testing)
-resource "aws_lb_listener" "onboarding_http" {
-  load_balancer_arn = aws_lb.onboarding.arn
-  port              = "80"
-  protocol          = "HTTP"
+# Listener Rule for host-based routing on shared ALB
+resource "aws_lb_listener_rule" "onboarding" {
+  listener_arn = data.terraform_remote_state.shared.outputs.shared_alb_https_listener_arn
+  priority     = 200  # Different priority from geomap (which uses default/auto)
 
-  default_action {
-    type = "redirect"
-
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"  # Permanent redirect
+  condition {
+    host_header {
+      values = ["${var.subdomain}.${data.terraform_remote_state.shared.outputs.domain_name}"]
     }
   }
-}
 
-
-#HTTPS listener commented out for testing - no SSL certificate needed
-resource "aws_lb_listener" "onboarding_https" {
-  load_balancer_arn = aws_lb.onboarding.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = aws_acm_certificate.onboarding.arn
-
-  default_action {
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.onboarding.arn
+  }
+
+  tags = {
+    Name        = "${var.app_name}-listener-rule"
+    Environment = var.environment
   }
 }

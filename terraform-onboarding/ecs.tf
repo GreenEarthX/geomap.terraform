@@ -44,26 +44,47 @@ resource "aws_ecs_task_definition" "onboarding" {
         {
           name  = "PORT"
           value = "3000"
-        }
+        },
+        {
+          name      = "GEOMAP_APP_URL"
+          value = var.geomap_app_url
+        },
+        {
+          name      = "NEXTAUTH_URL"
+          value = "https://${var.subdomain}.${var.domain_name}"
+        },
+        {
+          name      = "NEXT_PUBLIC_APP_URL"
+          value = "https://${var.subdomain}.${var.domain_name}"
+        },
+         {
+          name      = "GEOMAP_URL"
+          value = var.geomap_url
+        },
+        {
+          name      = "NEXT_PUBLIC_GEOMAP_URL"
+          value = var.geomap_url
+        },
+        {
+          name  = "CERTIFICATION_DB_URL"
+          value = "postgresql://postgres:${var.certification_db_password}@${data.terraform_remote_state.certification.outputs.rds_endpoint}/${data.terraform_remote_state.certification.outputs.rds_database_name}?sslmode=require"
+        },
+        {
+          name  = "CERT2_DB_URL"
+          value = "postgresql://postgres:${var.cert_backend_db_password}@${data.terraform_remote_state.cert_backend.outputs.rds_endpoint}/${data.terraform_remote_state.cert_backend.outputs.rds_database_name}?sslmode=require"
+        },
       ]
 
       secrets = [
         {
           name      = "DATABASE_URL"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:DATABASE_URL::"
-        },
-        {
-          name      = "NEXTAUTH_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXTAUTH_URL::"
-        },
+        }, 
         {
           name      = "NEXTAUTH_SECRET"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXTAUTH_SECRET::"
         },
-        {
-          name      = "NEXT_PUBLIC_APP_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_APP_URL::"
-        },
+      
         {
           name      = "JWT_SECRET"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:JWT_SECRET::"
@@ -81,10 +102,6 @@ resource "aws_ecs_task_definition" "onboarding" {
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:EMAIL_USER::"
         },
         {
-          name      = "EMAIL_PASS"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:EMAIL_PASS::"
-        },
-        {
           name      = "NEXT_PUBLIC_RECAPTCHA_SITE_KEY"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_RECAPTCHA_SITE_KEY::"
         },
@@ -93,20 +110,24 @@ resource "aws_ecs_task_definition" "onboarding" {
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:RECAPTCHA_SECRET_KEY::"
         },
         {
-          name      = "GEOMAP_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_URL::"
-        },
-        {
-          name      = "NEXT_PUBLIC_GEOMAP_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:NEXT_PUBLIC_GEOMAP_URL::"
-        },
-        {
           name      = "GEOMAP_JWT_SECRET"
           valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_JWT_SECRET::"
         },
         {
-          name      = "GEOMAP_APP_URL"
-          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:GEOMAP_APP_URL::"
+          name      = "MICROSOFT_CLIENT_ID"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:MICROSOFT_CLIENT_ID::"
+        },
+        {
+          name      = "MICROSOFT_CLIENT_SECRET"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:MICROSOFT_CLIENT_SECRET::"
+        },
+        {
+          name      = "MICROSOFT_TENANT_ID"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:MICROSOFT_TENANT_ID::"
+        },
+        {
+          name      = "MICROSOFT_REFRESH_TOKEN"
+          valueFrom = "${aws_secretsmanager_secret.onboarding_app_secrets.arn}:MICROSOFT_REFRESH_TOKEN::"
         }
       ]
 
@@ -149,7 +170,7 @@ resource "aws_ecs_service" "onboarding" {
     container_port   = 3000
   }
 
-  depends_on = [aws_lb_listener.onboarding_http]
+  depends_on = [aws_lb_listener_rule.onboarding]
 
   tags = {
     Name        = "${var.app_name}-service"

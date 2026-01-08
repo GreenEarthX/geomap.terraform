@@ -20,7 +20,7 @@ variable "app_name" {
 variable "subdomain" {
   description = "Subdomain for geomap app"
   type        = string
-  default     = "app"
+  default     = "geomap"
 }
 
 # Database variables
@@ -28,6 +28,11 @@ variable "db_name" {
   description = "Database name for geomap app"
   type        = string
   default     = "geomap_db"
+}
+
+variable "next_auth_url" {
+  description = "NextAuth URL for geomap application"
+  type        = string
 }
 
 variable "db_instance_class" {
@@ -82,7 +87,50 @@ variable "geomap_url" {
   description = "URL for geomap application"
   type        = string
 }
-variable "next_auth_url" {
-  description = "NextAuth URL for geomap application"
+
+variable "recaptcha_secret_key" {
+  description = "Secret key for reCAPTCHA"
   type        = string
+  sensitive   = true
+}
+variable "email_password" {
+  description = "Email password for sending emails"
+  type        = string
+  sensitive   = true 
+}
+variable "EMAIL_USER" {
+  description = "Email user for sending emails"
+  type        = string
+}
+
+variable "admin_emails" {
+  description = "List of admin email addresses"
+  type        = list(string)
+  default     = []
+}
+
+variable "MICROSOFT_CLIENT_ID" {
+  description = "Microsoft OAuth Client ID"
+  type        = string
+  sensitive   = true
+  
+}
+
+variable "MICROSOFT_CLIENT_SECRET" {
+  description = "Microsoft OAuth Client Secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "MICROSOFT_TENANT_ID" {
+  description = "Microsoft OAuth Tenant ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "MICROSOFT_REFRESH_TOKEN" {
+  description = "Microsoft OAuth Refresh Token"
+  type        = string
+  sensitive   = true
+  
 }

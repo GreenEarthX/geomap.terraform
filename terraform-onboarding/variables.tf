@@ -23,6 +23,13 @@ variable "subdomain" {
   default     = "auth"
 }
 
+variable "domain_name" {
+  description = "Domain name for onboarding app"
+  type        = string
+  default     = "greenearthx.io"
+}
+
+
 # Database variables
 variable "db_name" {
   description = "Database name for onboarding app"
@@ -75,10 +82,36 @@ variable "google_client_secret" {
 }
 
 # Email variables
-variable "email_user" {
+variable "EMAIL_USER" {
   description = "Email user for sending emails"
   type        = string
   sensitive   = true
+}
+
+variable "MICROSOFT_CLIENT_ID" {
+  description = "Microsoft OAuth Client ID"
+  type        = string
+  sensitive   = true
+  
+}
+
+variable "MICROSOFT_CLIENT_SECRET" {
+  description = "Microsoft OAuth Client Secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "MICROSOFT_TENANT_ID" {
+  description = "Microsoft OAuth Tenant ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "MICROSOFT_REFRESH_TOKEN" {
+  description = "Microsoft OAuth Refresh Token"
+  type        = string
+  sensitive   = true
+  
 }
 
 variable "email_pass" {
@@ -117,7 +150,6 @@ variable "nextauth_secret" {
 variable "geomap_url" {
   description = "Geomap application URL"
   type        = string
-  default     = "http://localhost:3001"
 }
 
 variable "geomap_jwt_secret" {
@@ -129,5 +161,17 @@ variable "geomap_jwt_secret" {
 variable "geomap_app_url" {
   description = "Geomap app URL for integration"
   type        = string
-  default     = "http://localhost:3001"
+}
+
+# Certification database passwords (for cross-service database access)
+variable "certification_db_password" {
+  description = "Password for certification database (certification_terraform RDS)"
+  type        = string
+  sensitive   = true
+}
+
+variable "cert_backend_db_password" {
+  description = "Password for cert-backend database (terraform-certification-backend RDS)"
+  type        = string
+  sensitive   = true
 }

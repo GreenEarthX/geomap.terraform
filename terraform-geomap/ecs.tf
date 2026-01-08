@@ -64,6 +64,14 @@ resource "aws_ecs_task_definition" "geomap" {
         {
           name      = "GEOMAP_URL"
           value = var.geomap_url
+        },
+        {
+          name  = "EMAIL_USER"
+          value = var.EMAIL_USER
+        },
+        {
+          name  = "ADMIN_EMAILS"
+          value = join(",", var.admin_emails)
         }
       ]
 
@@ -75,7 +83,32 @@ resource "aws_ecs_task_definition" "geomap" {
         {
           name      = "GEOMAP_JWT_SECRET"
           valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:GEOMAP_JWT_SECRET::"
+        },
+        {
+          name      = "RECAPTCHA_SECRET_KEY"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:RECAPTCHA_SECRET_KEY::"
+        },
+        {
+          name      = "EMAIL_PASS"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:EMAIL_PASS::"
+        },
+        {
+          name      = "MICROSOFT_CLIENT_ID"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:MICROSOFT_CLIENT_ID::"
+        },
+        {
+          name      = "MICROSOFT_CLIENT_SECRET"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:MICROSOFT_CLIENT_SECRET::"
+        },
+        {
+          name      = "MICROSOFT_TENANT_ID"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:MICROSOFT_TENANT_ID::"
+        },
+        {
+          name      = "MICROSOFT_REFRESH_TOKEN"
+          valueFrom = "${aws_secretsmanager_secret.geomap_app_secrets.arn}:MICROSOFT_REFRESH_TOKEN::"
         }
+
       ]
 
       logConfiguration = {
@@ -117,7 +150,7 @@ resource "aws_ecs_service" "geomap" {
     container_port   = 3000
   }
 
-  depends_on = [aws_lb_listener.geomap_http]
+  depends_on = [aws_lb_listener_rule.geomap]
 
   tags = {
     Name        = "${var.app_name}-service"

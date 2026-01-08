@@ -12,10 +12,11 @@ variable "environment" {
 }
 
 # Domain name commented out for testing - using ALB DNS instead
-# variable "domain_name" {
-#   description = "Main domain name (e.g., yourdomain.com)"
-#   type        = string
-# }
+ variable "domain_name" {
+   description = "Main domain name (e.g., yourdomain.com)"
+   type        = string
+   default     = "greenearthx.io"
+}
 
 variable "vpc_cidr" {
   description = "CIDR block for VPC"

@@ -10,9 +10,10 @@ terraform {
   
   # Configure remote backend for state management
   backend "s3" {
-    bucket = "terraform-geomap-state"  # Replace with your bucket name
-    key    = "onboarding/terraform.tfstate"
-    region = "us-west-1"
+    bucket  = "terraform-geomap-state"  # Replace with your bucket name
+    key     = "onboarding/terraform.tfstate"
+    region  = "us-west-1"
+    profile = "AdministratorAccess-975232045453"
     
     # Optional: DynamoDB table for state locking
     # dynamodb_table = "terraform-locks"
@@ -21,16 +22,40 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = "AdministratorAccess-975232045453"
 }
 
 # Reference shared infrastructure
 data "terraform_remote_state" "shared" {
   backend = "s3"
   config = {
-    bucket = "terraform-geomap-state"  # Replace with your bucket name
-    key    = "shared/terraform.tfstate"
-    region = var.aws_region
+    bucket  = "terraform-geomap-state"  # Replace with your bucket name
+    key     = "shared/terraform.tfstate"
+    region  = var.aws_region
+    profile = "AdministratorAccess-975232045453"
+  }
+}
+
+# Reference certification infrastructure (for RDS endpoint)
+data "terraform_remote_state" "certification" {
+  backend = "s3"
+  config = {
+    bucket  = "terraform-geomap-state"
+    key     = "certification/terraform.tfstate"
+    region  = var.aws_region
+    profile = "AdministratorAccess-975232045453"
+  }
+}
+
+# Reference certification-backend infrastructure (for RDS endpoint)
+data "terraform_remote_state" "cert_backend" {
+  backend = "s3"
+  config = {
+    bucket  = "terraform-geomap-state"
+    key     = "certification-backend/terraform.tfstate"
+    region  = var.aws_region
+    profile = "AdministratorAccess-975232045453"
   }
 }
 

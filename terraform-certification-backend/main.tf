@@ -1,4 +1,6 @@
-# terraform-geomap/main.tf
+# terraform-certification-backend/main.tf
+# Infrastructure for NestJS Certification Backend API
+
 terraform {
   required_version = ">= 1.0"
   required_providers {
@@ -7,17 +9,12 @@ terraform {
       version = "~> 5.0"
     }
   }
-  
-  # Configure remote backend for state management
+
   backend "s3" {
     bucket  = "terraform-geomap-state"
-    key     = "geomap/terraform.tfstate"
+    key     = "certification-backend/terraform.tfstate"
     region  = "us-west-1"
     profile = "AdministratorAccess-975232045453"
-
-    # Optional: DynamoDB table for state locking
-    # dynamodb_table = "terraform-locks"
-    # encrypt        = true
   }
 }
 

@@ -47,11 +47,11 @@ output "rds_security_group_id" {
   value       = aws_security_group.rds.id
 }
 
-# Route53 Outputs - commented out for testing
-# output "domain_name" {
-#   description = "The domain name"
-#   value       = var.domain_name
-# }
+# Route53 Outputs
+ output "domain_name" {
+   description = "The domain name"
+   value       = var.domain_name
+ }
 
 # Other Outputs
 output "aws_region" {
@@ -72,4 +72,46 @@ output "bastion_public_ip" {
 output "bastion_security_group_id" {
   description = "Security group ID of the bastion host"
   value       = aws_security_group.bastion.id
+}
+
+# ALB Outputs
+output "shared_alb_arn" {
+  description = "ARN of the shared Application Load Balancer"
+  value       = aws_lb.shared.arn
+}
+
+output "shared_alb_dns_name" {
+  description = "DNS name of the shared ALB"
+  value       = aws_lb.shared.dns_name
+}
+
+output "shared_alb_zone_id" {
+  description = "Zone ID of the shared ALB"
+  value       = aws_lb.shared.zone_id
+}
+
+output "shared_alb_https_listener_arn" {
+  description = "ARN of the shared ALB HTTPS listener"
+  value       = aws_lb_listener.https.arn
+}
+
+output "acm_certificate_arn" {
+  description = "ARN of the wildcard ACM certificate"
+  value       = aws_acm_certificate_validation.wildcard.certificate_arn
+}
+
+# GitHub Actions OIDC Outputs
+output "github_actions_role_arn" {
+  description = "ARN of the GitHub Actions IAM role for deployments"
+  value       = aws_iam_role.github_actions.arn
+}
+
+output "github_oidc_provider_arn" {
+  description = "ARN of the GitHub OIDC provider"
+  value       = aws_iam_openid_connect_provider.github.arn
+}
+
+output "aws_account_id" {
+  description = "AWS Account ID"
+  value       = data.aws_caller_identity.current.account_id
 }

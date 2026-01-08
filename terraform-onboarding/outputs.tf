@@ -8,13 +8,13 @@ output "ecr_repository_url" {
 # Application URL - using ALB DNS for testing
 output "application_url" {
   description = "URL of the onboarding application (ALB DNS)"
-  value       = "http://${aws_lb.onboarding.dns_name}"
+  value       = "https://${var.subdomain}.${data.terraform_remote_state.shared.outputs.domain_name}"
 }
 
 # Load Balancer DNS
 output "load_balancer_dns" {
   description = "DNS name of the load balancer"
-  value       = aws_lb.onboarding.dns_name
+  value       = data.terraform_remote_state.shared.outputs.shared_alb_dns_name
 }
 
 # Database Endpoint

@@ -1,0 +1,24 @@
+# terraform-certification-backend/terraform.tfvars.example
+# Copy this file to terraform.tfvars and fill in your values
+
+aws_region   = "us-west-1"
+project_name = "cert-backend"
+environment  = "prod"
+subdomain    = "cert-api"
+
+# ECS Configuration
+api_cpu    = "512"
+api_memory = "1024"
+api_port   = 3000
+
+# RDS Configuration
+rds_database_name     = "cert_backend_db"
+rds_username          = "postgres"
+rds_password          = "YOUR_SECURE_PASSWORD_HERE"
+rds_instance_class    = "db.t4g.micro"
+rds_allocated_storage = 20
+rds_engine_version    = "17.2"
+
+# JWT Configuration
+geomap_jwt_issuer   = "onboarding-app"
+geomap_jwt_audience = "geomap-app"

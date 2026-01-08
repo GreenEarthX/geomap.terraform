@@ -10,10 +10,11 @@ terraform {
   
   # Configure remote backend for state management
   backend "s3" {
-    bucket = "terraform-geomap-state" 
-    key    = "shared/terraform.tfstate"
-    region = "us-west-1"
-    
+    bucket  = "terraform-geomap-state"
+    key     = "shared/terraform.tfstate"
+    region  = "us-west-1"
+    profile = "AdministratorAccess-975232045453"
+
     # Optional: DynamoDB table for state locking
     # dynamodb_table = "terraform-locks"
     # encrypt        = true

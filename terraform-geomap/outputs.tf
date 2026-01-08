@@ -5,16 +5,16 @@ output "ecr_repository_url" {
   value       = aws_ecr_repository.geomap.repository_url
 }
 
-# Application URL - using ALB DNS for testing
+# Application URL - using Route53 DNS
 output "application_url" {
-  description = "URL of the geomap application (ALB DNS)"
-  value       = "http://${aws_lb.geomap.dns_name}"
+  description = "URL of the geomap application"
+  value       = "https://${aws_route53_record.geomap.name}"
 }
 
-# Load Balancer DNS
+# Load Balancer DNS (shared ALB)
 output "load_balancer_dns" {
-  description = "DNS name of the load balancer"
-  value       = aws_lb.geomap.dns_name
+  description = "DNS name of the shared load balancer"
+  value       = data.terraform_remote_state.shared.outputs.shared_alb_dns_name
 }
 
 # Database Endpoint

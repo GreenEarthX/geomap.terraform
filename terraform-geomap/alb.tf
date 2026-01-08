@@ -1,19 +1,5 @@
 # terraform-geomap/alb.tf
-# Application Load Balancer for Geomap App
-resource "aws_lb" "geomap" {
-  name               = "${var.app_name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [data.terraform_remote_state.shared.outputs.alb_security_group_id]
-  subnets            = data.terraform_remote_state.shared.outputs.public_subnet_ids
-
-  enable_deletion_protection = false
-
-  tags = {
-    Name        = "${var.app_name}-alb"
-    Environment = var.environment
-  }
-}
+# Target Group and Listener Rule for Shared ALB
 
 # Target Group
 resource "aws_lb_target_group" "geomap" {
@@ -41,28 +27,23 @@ resource "aws_lb_target_group" "geomap" {
   }
 }
 
-# ALB Listener HTTP (no redirect to HTTPS for testing)
-resource "aws_lb_listener" "geomap_http" {
-  load_balancer_arn = aws_lb.geomap.arn
-  port              = "80"
-  protocol          = "HTTP"
+# Listener Rule to attach geomap to shared ALB's HTTPS listener
+resource "aws_lb_listener_rule" "geomap" {
+  listener_arn = data.terraform_remote_state.shared.outputs.shared_alb_https_listener_arn
 
-  default_action {
+  condition {
+    host_header {
+      values = ["${var.subdomain}.${data.terraform_remote_state.shared.outputs.domain_name}"]
+    }
+  }
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.geomap.arn
   }
+
+  tags = {
+    Name        = "${var.app_name}-listener-rule"
+    Environment = var.environment
+  }
 }
-
-# HTTPS listener commented out for testing - no SSL certificate needed
-# resource "aws_lb_listener" "geomap_https" {
-#   load_balancer_arn = aws_lb.geomap.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-#   certificate_arn   = aws_acm_certificate_validation.geomap.certificate_arn
-
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.geomap.arn
-#   }
-# }
